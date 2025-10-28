@@ -1,0 +1,3 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.gov.doit.face_auth_sdk.face_auth_sdk">
+</manifest>
