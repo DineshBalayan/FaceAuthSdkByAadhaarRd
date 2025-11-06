@@ -6,6 +6,6 @@ class FaceAuthSdk {
   }
 
   Future<Map<String, dynamic>?> startFaceAuthentication() {
-    return FaceAuthSdkPlatform.instance.startFaceAuth();
+    return FaceAuthSdkPlatform.instance.startFaceAuthentication();
   }
 }

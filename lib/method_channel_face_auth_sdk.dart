@@ -11,8 +11,8 @@ class MethodChannelFaceAuthSdk extends FaceAuthSdkPlatform {
   }
 
   @override
-  Future<Map<String, dynamic>?> startFaceAuth() async {
-    final result = await methodChannel.invokeMethod<Map>('startFaceAuth');
+  Future<Map<String, dynamic>?> startFaceAuthentication() async {
+    final result = await methodChannel.invokeMethod<Map>('startFaceAuthentication');
     if (result == null) return null;
     return Map<String, dynamic>.from(result);
   }

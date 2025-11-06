@@ -13,5 +13,5 @@ abstract class FaceAuthSdkPlatform extends PlatformInterface {
   }
 
   Future<String?> getPlatformVersion();
-  Future<Map<String, dynamic>?> startFaceAuth(); // 👈 new method
+  Future<Map<String, dynamic>?> startFaceAuthentication();
 }
