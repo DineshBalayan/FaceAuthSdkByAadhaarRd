@@ -1,66 +1,48 @@
-group = "com.gov.doit.face_auth_sdk.face_auth_sdk"
-version = "1.0-SNAPSHOT"
-
-buildscript {
-    ext.kotlin_version = "2.1.0"
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath("com.android.tools.build:gradle:8.9.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
-    }
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
 }
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-apply plugin: "com.android.library"
-apply plugin: "kotlin-android"
 
 android {
-    namespace = "com.gov.doit.face_auth_sdk.face_auth_sdk"
+    namespace 'com.gov.doit.face_auth_sdk'
+    compileSdk 36
 
-    compileSdk = 36
+    defaultConfig {
+        minSdk 24
+        targetSdk 36
+    }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11
+        jvmTarget = "11"
     }
 
-    sourceSets {
-        main.java.srcDirs += "src/main/kotlin"
-        test.java.srcDirs += "src/test/kotlin"
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
+}
 
-    defaultConfig {
-        minSdk = 24
-    }
+repositories {
+    google()
+    mavenCentral()
+}
 
-    dependencies {
-        testImplementation("org.jetbrains.kotlin:kotlin-test")
-        testImplementation("org.mockito:mockito-core:5.0.0")
-    }
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.10"
 
-    testOptions {
-        unitTests.all {
-            useJUnitPlatform()
+    implementation "androidx.activity:activity-ktx:1.7.2"
+    implementation "androidx.fragment:fragment-ktx:1.8.0"
 
-            testLogging {
-               events "passed", "skipped", "failed", "standardOut", "standardError"
-               outputs.upToDateWhen {false}
-               showStandardStreams = true
-            }
-        }
-    }
+    implementation "com.google.android.play:integrity:1.6.0"
+    implementation "com.google.android.gms:play-services-tasks:18.4.0"
+
+    implementation "org.json:json:20250517"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2"
 }

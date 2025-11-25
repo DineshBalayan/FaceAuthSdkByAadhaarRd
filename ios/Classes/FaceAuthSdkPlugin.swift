@@ -24,9 +24,19 @@ public class FaceAuthSdkPlugin: NSObject, FlutterPlugin {
     case "getPlatformVersion":
       result("iOS " + UIDevice.current.systemVersion)
 
-    // ✅ Start authentication flow (Face RD)
+    // ✅ Start authentication ()
     case "startFaceAuthentication":
       startFaceAuth(result: result)
+
+    // ✅ Start face capture flow (By Aadhaar RD)
+    case "startAadhaarRd":
+      guard let args = call.arguments as? [String: Any],
+      let pidOptions = args["pidOptions"] as? String else {
+        result(FlutterError(code:"INVALID_ARGS", message:"pidOptions missing", details:nil))
+        return
+      }
+      self.flutterResult = result
+      launchFaceRD(pidOptions: pidOptions)
 
     // ✅ RD App check
     case "isRdAppInstalled":
@@ -108,7 +118,7 @@ public class FaceAuthSdkPlugin: NSObject, FlutterPlugin {
     handleScreenCapture()
   }
 
-  // MARK: - 🔹 Face Authentication Flow (Simulated + RD Launch)
+  // MARK: - 🔹 Face Authentication Flow (Play integrity)
   private func startFaceAuth(result: @escaping FlutterResult) {
     #if targetEnvironment(simulator)
     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
