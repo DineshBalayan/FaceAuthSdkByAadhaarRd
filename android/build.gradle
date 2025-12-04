@@ -5,25 +5,35 @@ plugins {
 
 android {
     namespace 'com.gov.doit.face_auth_sdk'
-    compileSdk 36
+    compileSdk 34   // recommended; align with Flutter
 
     defaultConfig {
         minSdk 24
-        targetSdk 36
+        targetSdk 34
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            jniDebuggable true
+        }
+        release {
+            minifyEnabled false
+        }
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
+    packagingOptions {
+        resources.excludes += "META-INF/*"
     }
 }
 
@@ -33,16 +43,11 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.10"
-
-    implementation "androidx.activity:activity-ktx:1.7.2"
-    implementation "androidx.fragment:fragment-ktx:1.8.0"
-
+    implementation "androidx.activity:activity-ktx:1.9.0"
+    implementation "androidx.fragment:fragment-ktx:1.8.2"
     implementation "com.google.android.play:integrity:1.6.0"
     implementation "com.google.android.gms:play-services-tasks:18.4.0"
-
-    implementation "org.json:json:20250517"
-
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.23"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1"
 }

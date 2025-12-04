@@ -1,4 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.gov.doit.face_auth_sdk">
-    <uses-permission android:name="android.permission.INTERNET"/>
+    package="com.gov.doit.face_auth_sdk">
+    <queries>
+        <!-- add RD package names you want the plugin to detect -->
+        <package android:name="in.gov.uidai.facerd" />
+        <!-- optional: add other RD packages you want to detect -->
+        <package android:name="com.mantra.rdservice" />
+        <package android:name="com.acpl.registersdk" />
+    </queries>
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

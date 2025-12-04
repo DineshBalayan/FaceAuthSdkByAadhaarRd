@@ -31,6 +31,19 @@ class SecureStorageManager(private val ctx: Context) {
     private fun clearKey(key: String) {
         prefs.edit().remove("${key}_iv").remove("${key}_data").apply()
     }
+    fun savePlayIntegrityToken(token: String, ttlMillis: Long) {
+        val obj = JSONObject().apply {
+            put("token", token)
+            put("validTill", ttlMillis)
+        }
+        saveEncryptedString("play_integrity_token", obj.toString())
+    }
+
+    fun getPlayIntegrityToken(): Pair<String, Long>? {
+        val raw = readEncryptedString("play_integrity_token") ?: return null
+        val obj = JSONObject(raw)
+        return obj.optString("token") to obj.optLong("validTill")
+    }
 
     // Integrity cache read/write (stored encrypted JSON)
     fun saveIntegrityCache(isVerified: Boolean, validTill: Long, integrityHash: String) {

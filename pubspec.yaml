@@ -1,7 +1,6 @@
 name: face_auth_sdk
 description: "A Flutter plugin (SDK) that allows other apps to perform Aadhaar-based Face Authentication through secure flow."
 version: 0.0.1
-homepage:
 
 environment:
   sdk: ^3.9.2
@@ -10,24 +9,54 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   plugin_platform_interface: ^2.0.2
   flutter_bloc: ^9.0.0
-  http: ^1.2.0
   equatable: ^2.0.5
   meta: ^1.10.0
   uuid: ^4.3.1
-
+  xml2json: ^6.2.7
+  dio: ^5.8.0+1
+  get_it: ^8.0.3
+  connectivity_plus: ^5.0.2
+  #Either failure repo
+  dartz: ^0.10.1
+  #Location services
+  geolocator: ^11.0.0
+  #App Permissions
+  permission_handler: ^11.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_gen_runner: ^5.3.1
+  #terminal--  dart run build_runner build --delete-conflicting-outputs
+  build_runner: ^2.4.9
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
   flutter_lints: ^5.0.0
 
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+# ----run cmd-----flutter pub run flutter_gen_runner || flutter pub run flutter_gen_runner build
+flutter_gen:
+  output: lib/core/constants/generated/
+  line_length: 80
+  integrations:
+    flutter_svg: true
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
 flutter:
+  generate: true
+  # The following line ensures that the Material Icons font is
+  # included with your application
+  uses-material-design: true
   # This section identifies this Flutter project as a plugin project.
   # The 'pluginClass' specifies the class (in Java, Kotlin, Swift, Objective-C, etc.)
   # which should be registered in the plugin registry. This is required for
@@ -48,9 +77,8 @@ flutter:
         fileName: FaceAuthSdkPlugin.swift
 
   # To add assets to your plugin package, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/icons/
   #
   # For details regarding assets in packages, see
   # https://flutter.dev/to/asset-from-package

@@ -20,7 +20,7 @@ object Utils {
             val url = URL(endpoint)
             val con = (url.openConnection() as HttpURLConnection).apply {
                 requestMethod = "POST"
-                setRequestProperty("Content-Type","application/json")
+                setRequestProperty("Content-Type", "application/json")
                 doOutput = true
                 connectTimeout = 15000
                 readTimeout = 15000

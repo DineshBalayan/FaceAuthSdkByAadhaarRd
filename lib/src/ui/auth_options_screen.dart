@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../repository/face_auth_repository.dart';
+
 import '../cubit/face_auth_cubit.dart';
 import '../models/auth_result.dart';
+import '../repository/face_auth_repository.dart';
 
 class AuthOptionsScreen extends StatelessWidget {
   const AuthOptionsScreen({super.key});
@@ -11,7 +12,9 @@ class AuthOptionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final repo = FaceAuthRepository();
     return BlocProvider(
-      create: (_) => FaceAuthCubit(repo)..startAuthentication(appId: 'INTEGRATOR_APP_ID'), // integrator supplies
+      create: (_) =>
+          FaceAuthCubit(repo)..startAuthentication(appId: 'INTEGRATOR_APP_ID'),
+      // integrator supplies
       child: Scaffold(
         appBar: AppBar(title: const Text('Authentication')),
         body: BlocConsumer<FaceAuthCubit, FaceAuthState>(
@@ -20,7 +23,9 @@ class AuthOptionsScreen extends StatelessWidget {
               Navigator.pop(context, state.result);
             }
             if (state is FaceAuthFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: ${state.error}')));
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('Error: ${state.error}')));
             }
           },
           builder: (context, state) {
@@ -29,23 +34,35 @@ class AuthOptionsScreen extends StatelessWidget {
             }
             if (state is FaceAuthOptions) {
               return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Session: ${state.session.transactionId}'),
-                    ElevatedButton(
-                      onPressed: () {
-                        // OTP selected — integrator handles OTP path
-                        Navigator.pop(context, AuthResult(status: 'success', transactionId: state.session.transactionId, otpFlowSelected: true));
-                      },
-                      child: const Text('Continue with OTP')
-                    ),
-                    const SizedBox(height: 12),
-                    ElevatedButton(
-                      onPressed: () => context.read<FaceAuthCubit>().continueWithRD(),
-                      child: const Text('Continue with Face Auth')
-                    ),
-                  ],
+                child: Padding(
+                  padding: EdgeInsetsGeometry.all(20),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Session: ${state.session.transactionId}\nresponseData: ${state.session.responseData.toString()}',
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          // OTP selected — integrator handles OTP path
+                          Navigator.pop(
+                            context,
+                            AuthResult(
+                              status: 'success',
+                              transactionId: state.session.transactionId,
+                              otpFlowSelected: true,
+                            ),
+                          );
+                        },
+                        child: const Text('Continue with OTP'),
+                      ),
+                      const SizedBox(height: 12),
+                      ElevatedButton(
+                        onPressed: () => context.read<FaceAuthCubit>().continueWithRD(),
+                        child: const Text('Continue with Face Auth'),
+                      ),
+                    ],
+                  ),
                 ),
               );
             }

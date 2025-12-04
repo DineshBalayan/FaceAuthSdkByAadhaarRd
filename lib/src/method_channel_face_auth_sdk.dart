@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+
 import 'face_auth_sdk_platform_interface.dart';
+import 'helper/error/exception.dart';
 
 class MethodChannelFaceAuthSdk extends FaceAuthSdkPlatform {
   @visibleForTesting
@@ -14,26 +18,58 @@ class MethodChannelFaceAuthSdk extends FaceAuthSdkPlatform {
 
   @override
   Future<Map<String, dynamic>?> startAuthentication() async {
-    final res = await methodChannel.invokeMapMethod<String, dynamic>('startAuth');
+    final res = await methodChannel.invokeMapMethod<String, dynamic>(
+      'startAuth',
+    );
     return res;
   }
 
   @override
-  Future<Map<String, dynamic>?> startAadhaarRD() async {
-    final res = await methodChannel.invokeMapMethod<String, dynamic>('startFaceRD');
-    return res;
+  Future<String?> startAadhaarRD(String pidOptions) async {
+    try {
+      final result = await methodChannel.invokeMethod<String>('startFaceRD', {
+        'pidOptions': pidOptions,
+      });
+      if (result == null || result.isEmpty) {
+        throw ServerException("RD Exception", "PID XML is empty");
+      }
+      return result;
+    } on PlatformException catch (e) {
+      throw ServerException(
+        e.code,
+        e.message ?? "Unknown Face RD error from native",
+      );
+    } catch (e) {
+      throw ServerException(
+        "Exception",
+        "Unexpected Face RD error: ${e.toString()}",
+      );
+    }
   }
 
   @override
   Future<String?> requestPlayIntegrity() async {
-    final res = await methodChannel.invokeMethod<String>('requestPlayIntegrity');
+    final res = await methodChannel.invokeMethod<String>(
+      'requestPlayIntegrity',
+    );
     return res;
   }
 
   @override
-  Future<bool?> isRdAppInstalled() async {
-    final res = await methodChannel.invokeMethod<bool>('isRdAppInstalled');
-    return res;
+  Future<bool?> isRdAppInstalled(String packageName) async {
+    try {
+      if (Platform.isAndroid) {
+        return await methodChannel.invokeMethod('isRdAppInstalled', {
+              'packageName': packageName,
+            }) ??
+            false;
+      } else if (Platform.isIOS) {
+        return await methodChannel.invokeMethod('isRdAppInstalled') ?? false;
+      }
+    } catch (e) {
+      debugPrint('Error checking app installed: $e');
+    }
+    return false;
   }
 
   @override
