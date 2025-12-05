@@ -1,5 +1,16 @@
 class DashboardRequest {
-  DashboardRequest();
+  final String? appCode;
+  final String? data;
 
-  Map<String, dynamic> toJson() => {};
+  DashboardRequest({
+    this.appCode,
+    this.data,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      "AppCode": appCode,
+      "Data": data,
+    };
+  }
 }

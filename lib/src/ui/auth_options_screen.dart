@@ -1,20 +1,20 @@
+import 'package:face_auth_sdk/src/helper/faceauthhelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../cubit/face_auth_cubit.dart';
-import '../models/auth_result.dart';
-import '../repository/face_auth_repository.dart';
+import '../bloc/face_auth_cubit.dart';
+import '../data/models/auth_result.dart';
+import '../di/injection_container.dart';
 
 class AuthOptionsScreen extends StatelessWidget {
   const AuthOptionsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final repo = FaceAuthRepository();
     return BlocProvider(
       create: (_) =>
-          FaceAuthCubit(repo)..startAuthentication(appId: 'INTEGRATOR_APP_ID'),
-      // integrator supplies
+          getIt<FaceAuthCubit>()
+            ..startAuthentication(appId: 'INTEGRATOR_APP_ID'),
       child: Scaffold(
         appBar: AppBar(title: const Text('Authentication')),
         body: BlocConsumer<FaceAuthCubit, FaceAuthState>(
@@ -23,9 +23,11 @@ class AuthOptionsScreen extends StatelessWidget {
               Navigator.pop(context, state.result);
             }
             if (state is FaceAuthFailure) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text('Error: ${state.error}')));
+              FaceAuthResult fr = FaceAuthResult.failure(
+                state.errorCode,
+                state.error,
+              );
+              Navigator.pop(context, fr);
             }
           },
           builder: (context, state) {
@@ -58,7 +60,8 @@ class AuthOptionsScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
                       ElevatedButton(
-                        onPressed: () => context.read<FaceAuthCubit>().continueWithRD(),
+                        onPressed: () =>
+                            context.read<FaceAuthCubit>().continueWithRD(),
                         child: const Text('Continue with Face Auth'),
                       ),
                     ],

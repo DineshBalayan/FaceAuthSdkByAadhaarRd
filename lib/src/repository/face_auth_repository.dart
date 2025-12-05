@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-
 import '../face_auth_sdk_platform_interface.dart';
 import '../helper/error/exception.dart';
-import '../models/auth_result.dart';
-import '../models/auth_session.dart';
+import '../data/models/auth_session.dart';
 
 class FaceAuthRepository {
   final FaceAuthSdkPlatform _platform = FaceAuthSdkPlatform.instance;
@@ -19,6 +17,7 @@ class FaceAuthRepository {
     }
     return AuthSession.fromMap(res);
   }
+
 
   Future<bool> isRdAppInstalled(String packageName) async {
     final r = await _platform.isRdAppInstalled(packageName);

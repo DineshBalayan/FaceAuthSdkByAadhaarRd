@@ -35,7 +35,12 @@ class _HomeState extends State<Home> {
                 setState(() => status = 'Starting...');
                 try {
                   final res = await sdk.launchUI(context);
-                  setState(() => status = res?.status ?? 'null');
+
+                  if(res!=null && res.isSuccess){
+                    setState(() => status = res.encryptedPid ?? 'null');
+                  }else{
+                    setState(() => status = res?.errorMessage ?? 'null');
+                  }
                 } catch (e) {
                   setState(() => status = 'error: $e');
                 }
