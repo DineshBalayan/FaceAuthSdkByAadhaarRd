@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 class DashboardEntity extends Equatable {
   final String id;
   final String message;
-  final String isApproved;
+  final bool isApproved;
   final List<StatusData> statusList;
   final DashboardUserEntity userEntity;
 

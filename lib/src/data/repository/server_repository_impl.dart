@@ -1,24 +1,23 @@
 import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 
-import '../../face_auth_sdk_platform_interface.dart';
-import '../../network/dio_client.dart';
-import '../../helper/error/failure.dart';
-import '../../helper/error/exception.dart';
-import '../../helper/constants/api_urls.dart';
-import '../../helper/l10n/string_keys.dart';
-
-import '../../domain/repository/server_repository.dart';
 import '../../domain/entities/dashboard_entity.dart';
-
-import '../models/response/dashboard_response.dart';
-import '../models/dashboard_request.dart';
-import '../models/response/afa_verify_response.dart';
+import '../../domain/repository/server_repository.dart';
+import '../../face_auth_sdk_platform_interface.dart';
+import '../../helper/constants/api_urls.dart';
+import '../../helper/error/exception.dart';
+import '../../helper/error/failure.dart';
+import '../../helper/l10n/string_keys.dart';
+import '../../network/dio_client.dart';
 import '../models/afa_verification_request.dart';
 import '../models/auth_session.dart';
+import '../models/dashboard_request.dart';
+import '../models/response/afa_verify_response.dart';
+import '../models/response/dashboard_response.dart';
 
 class ServerRepositoryImpl implements ServerRepository {
   final DioClient dioClient;
@@ -31,8 +30,8 @@ class ServerRepositoryImpl implements ServerRepository {
   // ---------------------------
   @override
   Future<Either<Failure, DashboardEntity>> dashboardLoad(
-      DashboardRequest request,
-      ) async {
+    DashboardRequest request,
+  ) async {
     try {
       final response = await dioClient.post(
         ApiUrls.authService,
@@ -62,8 +61,8 @@ class ServerRepositoryImpl implements ServerRepository {
   // ---------------------------
   @override
   Future<Either<Failure, AfaVerifyResponse>> faceAuthRequest(
-      AfaVerificationRequest request,
-      ) async {
+    AfaVerificationRequest request,
+  ) async {
     try {
       final response = await dioClient.post(
         ApiUrls.faceAuthRequest,
@@ -73,10 +72,12 @@ class ServerRepositoryImpl implements ServerRepository {
       final parsed = AfaVerifyResponse.fromJson(response.data);
 
       if (!parsed.isSuccess) {
-        return Left(ServerFailure(
-          errorCode: 'Face Authentication Failed',
-          message: parsed.message,
-        ));
+        return Left(
+          ServerFailure(
+            errorCode: 'Face Authentication Failed',
+            message: parsed.message,
+          ),
+        );
       }
 
       return Right(parsed);
@@ -88,7 +89,9 @@ class ServerRepositoryImpl implements ServerRepository {
         message = StringKeys.networkIssue;
       }
 
-      return Left(ServerFailure(errorCode: errorCode.toString(), message: message));
+      return Left(
+        ServerFailure(errorCode: errorCode.toString(), message: message),
+      );
     }
   }
 
@@ -97,9 +100,9 @@ class ServerRepositoryImpl implements ServerRepository {
   // ---------------------------
   @override
   Future<AuthSession> performAttestation(
-      String appId,
-      Map<String, dynamic>? userData,
-      ) async {
+    String appId,
+    Map<String, dynamic>? userData,
+  ) async {
     final res = await _platform.startAuthentication();
 
     if (res == null || res['status'] != 'success') {
@@ -145,9 +148,9 @@ class ServerRepositoryImpl implements ServerRepository {
   // ---------------------------
   @override
   Future<Map<String, dynamic>> verifyIntegrityOnServer(
-      String integrityToken,
-      String backendBaseUrl,
-      ) async {
+    String integrityToken,
+    String backendBaseUrl,
+  ) async {
     // Implement integrator-side HTTP here
     throw UnimplementedError(
       'Call backend POST /v1/auth/integrity/verify here',

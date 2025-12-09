@@ -1,18 +1,5 @@
-import 'package:face_auth_sdk/src/helper/faceauthhelper.dart';
-import 'package:face_auth_sdk/src/ui/auth_options_screen.dart';
-import 'package:flutter/material.dart';
+library;
 
-class FaceAuthSdk {
-  FaceAuthSdk._();
-  static final FaceAuthSdk instance = FaceAuthSdk._();
+export 'src/sdk/face_auth_sdk.dart';
+export 'src/data/models/auth_result.dart';
 
-  Future<FaceAuthResult?> launchUI(BuildContext context) async {
-    final result = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const AuthOptionsScreen()),
-    );
-
-    if (result is FaceAuthResult) return result;
-    return null;
-  }
-}

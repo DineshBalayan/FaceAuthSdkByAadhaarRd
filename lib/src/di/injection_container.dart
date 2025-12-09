@@ -11,8 +11,11 @@ import '../domain/useCases/start_facerd_uc.dart';
 import '../network/dio_client.dart';
 
 final getIt = GetIt.instance;
-
+bool _diInitialized = false;
 Future<void> injectionContainer() async {
+
+  if (_diInitialized) return;
+
   // ******** CORE ********
   getIt.registerLazySingleton(() => DioClient());
 
@@ -29,11 +32,18 @@ Future<void> injectionContainer() async {
   getIt.registerLazySingleton(() => StartFaceRdUseCase(getIt()));
 
   // ******** CUBITS ********
-  getIt.registerFactory(() => FaceAuthCubit(
-    getIt<AttestationUseCase>(),
-    getIt<DashboardUseCase>(),
-    getIt<CheckRdInstalledUseCase>(),
-    getIt<StartFaceRdUseCase>(),
-    getIt<FaceAuthRequestUseCase>(),
-  ));
+  getIt.registerFactoryParam<FaceAuthCubit, String, String>(
+        (appCode, userData) => FaceAuthCubit(
+      getIt<AttestationUseCase>(),
+      getIt<DashboardUseCase>(),
+      getIt<CheckRdInstalledUseCase>(),
+      getIt<StartFaceRdUseCase>(),
+      getIt<FaceAuthRequestUseCase>(),
+      appCode: appCode,
+      userData: userData,
+    ),
+  );
+
+  _diInitialized = true;
+
 }

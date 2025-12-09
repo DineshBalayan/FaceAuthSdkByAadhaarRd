@@ -7,10 +7,26 @@ class FaceAuthInitial extends FaceAuthState {}
 
 class FaceAuthLoading extends FaceAuthState {}
 
+class FaceAuthProgress extends FaceAuthState {
+  final FaceAuthStep step;
+  final String message;
+  final AuthSession? session;
+
+  FaceAuthProgress({
+    required this.step,
+    required this.message,
+    this.session,
+  });
+}
+
 class FaceAuthOptions extends FaceAuthState {
   final AuthSession session;
+  final DashboardEntity dashboard;
 
-  FaceAuthOptions(this.session);
+  FaceAuthOptions({
+    required this.session,
+    required this.dashboard,
+  });
 }
 
 class FaceAuthRdInitializing extends FaceAuthState {}

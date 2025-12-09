@@ -1,35 +1,42 @@
 
 import 'dart:convert';
 import 'dart:math';
-import 'package:face_auth_sdk/src/repository/face_auth_repository.dart';
 import 'package:xml2json/xml2json.dart';
 
+import '../domain/useCases/start_facerd_uc.dart';
 import 'app_constants.dart';
 
 class FaceAuthHelper {
 
-  Future<FaceAuthResult> captureAndEncryptFaceXml(int userType, FaceAuthRepository repository) async {
+  Future<FaceAuthResult> captureAndEncryptFaceXml({
+    required int userType,
+    required StartFaceRdUseCase startRdUC,
+  }) async {
     try {
       final txnId = generateRandomTxnId();
+
       final pidOptions = buildPidOptionsXml(txnId, userType);
-      final pidXml = await repository.startFaceRD(pidOptions);
+
+      final pidXml = await startRdUC(pidOptions);
+
       if (pidXml == null || pidXml.isEmpty) {
         return FaceAuthResult.failure(
           'PID Data Exception',
-          "FaceRD returned empty or null XML.",
+          'Face RD returned empty XML',
         );
       }
 
-      // ✅ Validate RD response using internal method
       final parsedError = _extractRDResultError(pidXml);
       if (parsedError != null) {
-        return FaceAuthResult.failure(parsedError.errCode, parsedError.errInfo);
+        return FaceAuthResult.failure(
+          parsedError.errCode,
+          parsedError.errInfo,
+        );
       }
+
       return FaceAuthResult.success(pidXml);
     } catch (e) {
-      return FaceAuthResult.failure(
-        "RD Exception",e.toString()
-      );
+      return FaceAuthResult.failure('RD Exception', e.toString());
     }
   }
 

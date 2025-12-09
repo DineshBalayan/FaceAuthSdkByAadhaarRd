@@ -122,7 +122,7 @@ extension DashboardMapper on DashboardResponse {
     return DashboardEntity(
       id: user?.requestId ?? '',
       message: user?.purpose ?? '',
-      isApproved: user?.serviceStatus ?? '',
+      isApproved: true,
       statusList: statusList,
       userEntity: data?.user?.getEntity() ?? DashboardUserEntity.empty(),
     );
