@@ -1,14 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-
-import 'face_auth_sdk_platform_interface.dart';
+import 'auth_sdk_platform_interface.dart';
 import 'helper/error/exception.dart';
 
-class MethodChannelFaceAuthSdk extends FaceAuthSdkPlatform {
+class MethodChannelAuthSdk extends AadhaarAuthSdkPlatform {
   @visibleForTesting
-  final methodChannel = const MethodChannel('face_auth_sdk');
+  final methodChannel = const MethodChannel('aadhaar_auth_sdk');
 
   @override
   Future<String?> getPlatformVersion() async {

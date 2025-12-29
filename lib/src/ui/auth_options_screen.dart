@@ -1,8 +1,7 @@
-import 'package:face_auth_sdk/src/helper/faceauthhelper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../bloc/face_auth_cubit.dart';
+import '../bloc/aadhaar_auth_cubit.dart';
 import '../data/models/auth_result.dart';
 
 class AuthOptionsScreen extends StatelessWidget {
@@ -12,21 +11,21 @@ class AuthOptionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Authentication')),
-      body: BlocConsumer<FaceAuthCubit, FaceAuthState>(
+      body: BlocConsumer<AadhaarAuthCubit, AadhaarAuthState>(
         listener: (context, state) {
-          if (state is FaceAuthSuccess) {
+          if (state is AadhaarAuthSuccess) {
             Navigator.pop(context, state.result);
           }
-          if (state is FaceAuthFailure) {
-            FaceAuthResult fr = FaceAuthResult.failure(
-              state.errorCode,
-              state.error,
+          if (state is AadhaarAuthFailure) {
+            AuthResult fr = AuthResult(
+              status:state.errorCode,
+              message:state.error,
             );
             Navigator.pop(context, fr);
           }
         },
         builder: (context, state) {
-          if (state is FaceAuthProgress) {
+          if (state is AadhaarAuthProgress) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,7 +37,7 @@ class AuthOptionsScreen extends StatelessWidget {
             );
           }
 
-          if (state is FaceAuthOptions) {
+          if (state is AadhaarAuthOptions) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,7 +59,7 @@ class AuthOptionsScreen extends StatelessWidget {
                 if (state.dashboard.isApproved)
                   ElevatedButton(
                     onPressed: () =>
-                        context.read<FaceAuthCubit>().continueWithRD(),
+                        context.read<AadhaarAuthCubit>().continueWithRD(),
                     child: const Text('Continue with Face Auth'),
                   ),
               ],
@@ -74,15 +73,4 @@ class AuthOptionsScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-enum FaceAuthStep {
-  initializing,
-  attestationCheck,
-  dashboardCall,
-  rdCheck,
-  rdCapture,
-  backendVerify,
-  success,
-  failure,
 }

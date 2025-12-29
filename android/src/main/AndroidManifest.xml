@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gov.doit.face_auth_sdk">
+    package="com.gov.doit.aadhaar_auth_sdk">
     <queries>
         <!-- add RD package names you want the plugin to detect -->
         <package android:name="in.gov.uidai.facerd" />

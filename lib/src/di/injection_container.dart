@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
-
-import '../bloc/face_auth_cubit.dart';
+import '../bloc/aadhaar_auth_cubit.dart';
 import '../data/repository/server_repository_impl.dart';
 import '../domain/repository/server_repository.dart';
 import '../domain/useCases/attestation_uc.dart';
@@ -32,8 +31,8 @@ Future<void> injectionContainer() async {
   getIt.registerLazySingleton(() => StartFaceRdUseCase(getIt()));
 
   // ******** CUBITS ********
-  getIt.registerFactoryParam<FaceAuthCubit, String, String>(
-        (appCode, userData) => FaceAuthCubit(
+  getIt.registerFactoryParam<AadhaarAuthCubit, String, String>(
+        (appCode, userData) => AadhaarAuthCubit(
       getIt<AttestationUseCase>(),
       getIt<DashboardUseCase>(),
       getIt<CheckRdInstalledUseCase>(),

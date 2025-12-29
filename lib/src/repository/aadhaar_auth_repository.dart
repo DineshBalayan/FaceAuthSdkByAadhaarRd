@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import '../face_auth_sdk_platform_interface.dart';
+import '../auth_sdk_platform_interface.dart';
 import '../helper/error/exception.dart';
 import '../data/models/auth_session.dart';
 
-class FaceAuthRepository {
-  final FaceAuthSdkPlatform _platform = FaceAuthSdkPlatform.instance;
+class AadhaarAuthRepository {
+  final AadhaarAuthSdkPlatform _platform = AadhaarAuthSdkPlatform.instance;
 
   Future<AuthSession> performAttestation(
     String appId,

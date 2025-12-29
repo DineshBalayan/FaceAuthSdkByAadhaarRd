@@ -1,4 +1,4 @@
-package com.gov.doit.face_auth_sdk.face_auth_sdk_example
+package com.gov.doit.auth_sdk_example
 
 import io.flutter.embedding.android.FlutterActivity
 

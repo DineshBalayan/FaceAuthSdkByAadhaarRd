@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.gov.doit.face_auth_sdk.face_auth_sdk_example"
+    namespace = "com.gov.doit.auth_sdk_example"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.gov.doit.face_auth_sdk.face_auth_sdk_example"
+        applicationId = "com.gov.doit.auth_sdk_example"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

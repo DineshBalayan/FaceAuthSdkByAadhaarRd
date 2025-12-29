@@ -1,4 +1,4 @@
-name: face_auth_sdk
+name: aadhaar_auth_sdk
 description: "A Flutter plugin (SDK) that allows other apps to perform Aadhaar-based Face Authentication through secure flow."
 version: 0.0.1
 
@@ -70,8 +70,8 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.gov.doit.face_auth_sdk
-        pluginClass: FaceAuthSdkPlugin
+        package: com.gov.doit.aadhaar_auth_sdk
+        pluginClass: AadhaarAuthPlugin
       ios:
         pluginClass: FaceAuthSdkPlugin
         fileName: FaceAuthSdkPlugin.swift

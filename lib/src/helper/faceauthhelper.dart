@@ -2,9 +2,8 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:xml2json/xml2json.dart';
-
 import '../domain/useCases/start_facerd_uc.dart';
-import 'app_constants.dart';
+import '../helper/constants/app_constants.dart';
 
 class FaceAuthHelper {
 

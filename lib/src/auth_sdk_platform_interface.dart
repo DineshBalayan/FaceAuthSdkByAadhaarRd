@@ -1,16 +1,15 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+import 'method_channel_auth_sdk.dart';
 
-import 'method_channel_face_auth_sdk.dart';
-
-abstract class FaceAuthSdkPlatform extends PlatformInterface {
-  FaceAuthSdkPlatform() : super(token: _token);
+abstract class AadhaarAuthSdkPlatform extends PlatformInterface {
+  AadhaarAuthSdkPlatform() : super(token: _token);
 
   static final Object _token = Object();
-  static FaceAuthSdkPlatform _instance = MethodChannelFaceAuthSdk();
+  static AadhaarAuthSdkPlatform _instance = MethodChannelAuthSdk();
 
-  static FaceAuthSdkPlatform get instance => _instance;
+  static AadhaarAuthSdkPlatform get instance => _instance;
 
-  static set instance(FaceAuthSdkPlatform instance) {
+  static set instance(AadhaarAuthSdkPlatform instance) {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }

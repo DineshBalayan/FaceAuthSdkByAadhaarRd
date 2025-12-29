@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.gov.doit.face_auth_sdk'
+    namespace 'com.gov.doit.aadhaar_auth_sdk'
     compileSdk 34   // recommended; align with Flutter
 
     defaultConfig {

@@ -1,4 +1,4 @@
-# face_auth_sdk_example
+# aadhaar_auth_sdk_example
 
 Demonstrates how to use the face_auth_sdk plugin.
 

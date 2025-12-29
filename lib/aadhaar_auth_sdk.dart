@@ -1,5 +1,5 @@
 library;
 
-export 'src/sdk/face_auth_sdk.dart';
+export 'src/sdk/aadhaar_auth_sdk.dart';
 export 'src/data/models/auth_result.dart';
 

@@ -1,22 +1,22 @@
-import 'package:face_auth_sdk/src/helper/app_constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-
-import '../data/models/afa_verification_request.dart';
+import '../../aadhaar_auth_sdk.dart';
 import '../data/models/auth_session.dart';
-import '../data/models/dashboard_request.dart';
-import '../domain/entities/dashboard_entity.dart';
 import '../domain/useCases/attestation_uc.dart';
 import '../domain/useCases/check_rdinstalled_uc.dart';
 import '../domain/useCases/dashboard_uc.dart';
 import '../domain/useCases/face_auth_req_uc.dart';
 import '../domain/useCases/start_facerd_uc.dart';
+import '../domain/entities/aadhaar_auth_step.dart';
+import '../domain/entities/dashboard_entity.dart';
+import '../data/models/dashboard_request.dart';
+import '../helper/constants/app_constants.dart';
 import '../helper/faceauthhelper.dart';
-import '../ui/auth_options_screen.dart';
+import '../data/models/afa_verification_request.dart';
 
-part 'face_auth_state.dart';
+part 'aadhaar_auth_state.dart';
 
-class FaceAuthCubit extends Cubit<FaceAuthState> {
+class AadhaarAuthCubit extends Cubit<AadhaarAuthState> {
   final AttestationUseCase attestationUC;
   final DashboardUseCase dashboardUC;
   final CheckRdInstalledUseCase rdCheckUC;
@@ -26,7 +26,7 @@ class FaceAuthCubit extends Cubit<FaceAuthState> {
   final String appCode;
   final String userData;
 
-  FaceAuthCubit(
+  AadhaarAuthCubit(
     this.attestationUC,
     this.dashboardUC,
     this.rdCheckUC,
@@ -34,7 +34,7 @@ class FaceAuthCubit extends Cubit<FaceAuthState> {
     this.faceVerifyUC, {
     required this.appCode,
     required this.userData,
-  }) : super(FaceAuthInitial());
+  }) : super(AadhaarAuthInitial());
 
   Future<void> startAuthentication({
     required String appId,
@@ -42,8 +42,8 @@ class FaceAuthCubit extends Cubit<FaceAuthState> {
   }) async {
     try {
       emit(
-        FaceAuthProgress(
-          step: FaceAuthStep.initializing,
+        AadhaarAuthProgress(
+          step: AadhaarAuthStep.initializing,
           message: "Initializing SDK...",
         ),
       );
@@ -51,19 +51,16 @@ class FaceAuthCubit extends Cubit<FaceAuthState> {
       await Future.delayed(const Duration(milliseconds: 500));
 
       emit(
-        FaceAuthProgress(
-          step: FaceAuthStep.attestationCheck,
+        AadhaarAuthProgress(
+          step: AadhaarAuthStep.attestationCheck,
           message: "Verifying app integrity...",
         ),
       );
 
       final session = await attestationUC(appId, userDataMap);
-      // ✅ store internally
-      var _session = session;
-
       emit(
-        FaceAuthProgress(
-          step: FaceAuthStep.dashboardCall,
+        AadhaarAuthProgress(
+          step: AadhaarAuthStep.dashboardCall,
           message: "Fetching dashboard config...",
           session: session,
         ),
@@ -75,7 +72,7 @@ class FaceAuthCubit extends Cubit<FaceAuthState> {
       result.fold(
         (failure) {
           emit(
-            FaceAuthFailure(
+            AadhaarAuthFailure(
               failure.errorCode,
               failure.message.toString().split(':')[0],
             ),
@@ -83,7 +80,7 @@ class FaceAuthCubit extends Cubit<FaceAuthState> {
         },
         (entity) {
           emit(
-            FaceAuthOptions(
+            AadhaarAuthOptions(
               session: session,
               dashboard: entity,
             ),
@@ -91,17 +88,17 @@ class FaceAuthCubit extends Cubit<FaceAuthState> {
         },
       );
     } catch (e) {
-      emit(FaceAuthFailure("Authentication", e.toString()));
+      emit(AadhaarAuthFailure("Authentication", e.toString()));
     }
   }
 
   Future<void> continueWithRD() async {
-    emit(FaceAuthRdInitializing());
+    emit(AadhaarAuthRdInitializing());
 
     try {
       final installed = await rdCheckUC(AppConstants.rdAppPackageProd);
       if (!installed) {
-        emit(FaceAuthFailure('101', 'RD service not installed'));
+        emit(AadhaarAuthFailure('101', 'RD service not installed'));
         return;
       }
 
@@ -114,7 +111,7 @@ class FaceAuthCubit extends Cubit<FaceAuthState> {
 
       if (!rdResult.isSuccess) {
         emit(
-          FaceAuthFailure(
+          AadhaarAuthFailure(
             rdResult.errorCode ?? '',
             rdResult.errorMessage ?? 'RD Error',
           ),
@@ -130,11 +127,11 @@ class FaceAuthCubit extends Cubit<FaceAuthState> {
       );
 
       apiResult.fold(
-        (failure) => emit(FaceAuthFailure(failure.errorCode, failure.message)),
+        (failure) => emit(AadhaarAuthFailure(failure.errorCode, failure.message)),
         (_) => emit(FaceAuthSuccess(rdResult)),
       );
     } catch (e) {
-      emit(FaceAuthFailure('RD Result', e.toString()));
+      emit(AadhaarAuthFailure('RD Result', e.toString()));
     }
   }
 }

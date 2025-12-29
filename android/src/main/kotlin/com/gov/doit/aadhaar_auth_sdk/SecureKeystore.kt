@@ -1,4 +1,4 @@
-package com.gov.doit.face_auth_sdk
+package com.gov.doit.aadhaar_auth_sdk
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties

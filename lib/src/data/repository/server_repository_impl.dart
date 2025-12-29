@@ -5,9 +5,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
+import '../../auth_sdk_platform_interface.dart';
 import '../../domain/entities/dashboard_entity.dart';
 import '../../domain/repository/server_repository.dart';
-import '../../face_auth_sdk_platform_interface.dart';
 import '../../helper/constants/api_urls.dart';
 import '../../helper/error/exception.dart';
 import '../../helper/error/failure.dart';
@@ -21,7 +21,7 @@ import '../models/response/dashboard_response.dart';
 
 class ServerRepositoryImpl implements ServerRepository {
   final DioClient dioClient;
-  final FaceAuthSdkPlatform _platform = FaceAuthSdkPlatform.instance;
+  final AadhaarAuthSdkPlatform _platform = AadhaarAuthSdkPlatform.instance;
 
   ServerRepositoryImpl(this.dioClient);
 

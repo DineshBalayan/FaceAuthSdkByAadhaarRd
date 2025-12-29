@@ -1,10 +1,9 @@
-package com.gov.doit.face_auth_sdk
+package com.gov.doit.aadhaar_auth_sdk
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.util.Log
@@ -17,11 +16,11 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.PluginRegistry
 
-class FaceAuthSdkPlugin : FlutterPlugin, MethodChannel.MethodCallHandler, ActivityAware,
+class AadhaarAuthPlugin : FlutterPlugin, MethodChannel.MethodCallHandler, ActivityAware,
     PluginRegistry.ActivityResultListener {
 
     companion object {
-        const val CHANNEL = "face_auth_sdk"
+        const val CHANNEL = "aadhaar_auth_sdk"
         const val TAG = "PLUGIN ACTIVITY"
         private const val REQUEST_CODE_FACE_RD = 0xCAFE  // arbitrary unique request code
     }
