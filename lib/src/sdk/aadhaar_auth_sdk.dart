@@ -10,6 +10,7 @@ class AadhaarAuthSdk {
   static final AadhaarAuthSdk instance = AadhaarAuthSdk._();
 
   Future<AuthResult?> integrate(BuildContext context, {required String appCode, required String userData}) async {
+    debugPrint("AADHAAR_AUTH_SDK:- AadhaarAuthSdk.dart - integrate() called");
      await injectionContainer();
 
     if (!context.mounted) {

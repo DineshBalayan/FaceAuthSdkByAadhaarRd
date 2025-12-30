@@ -19,4 +19,21 @@ class PlayIntegrityManager(private val ctx: Context) {
             return null
         }
     }
+
+/*
+    val integrityManager = IntegrityManagerFactory.create(context)
+
+    val request = IntegrityTokenRequest.builder()
+        .setNonce(nonceFromServer)
+        .build()
+
+    integrityManager.requestIntegrityToken(request)
+    .addOnSuccessListener { response ->
+        val token = response.token()
+        callback.onSuccess(token)
+    }
+    .addOnFailureListener { e ->
+        callback.onError(e.message ?: "Integrity failed")
+    }*/
+
 }

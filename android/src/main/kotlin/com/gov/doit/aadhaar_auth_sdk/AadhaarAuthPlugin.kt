@@ -21,7 +21,7 @@ class AadhaarAuthPlugin : FlutterPlugin, MethodChannel.MethodCallHandler, Activi
 
     companion object {
         const val CHANNEL = "aadhaar_auth_sdk"
-        const val TAG = "PLUGIN ACTIVITY"
+        const val TAG = "AADHAAR_AUTH_SDK"
         private const val REQUEST_CODE_FACE_RD = 0xCAFE  // arbitrary unique request code
     }
 

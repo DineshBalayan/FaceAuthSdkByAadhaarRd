@@ -9,6 +9,7 @@ class AuthOptionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("AADHAAR_AUTH_SDK:- AuthOptionsScreen build() called");
     return Scaffold(
       appBar: AppBar(title: const Text('Authentication')),
       body: BlocConsumer<AadhaarAuthCubit, AadhaarAuthState>(

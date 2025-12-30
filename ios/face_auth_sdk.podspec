@@ -1,9 +1,9 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
-# Run `pod lib lint aadhaar_auth_sdk.podspec` to validate before publishing.
+# Run `pod lib lint face_auth_sdk.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'aadhaar_auth_sdk'
+  s.name             = 'face_auth_sdk'
   s.version          = '0.0.1'
   s.summary          = 'A Flutter plugin (SDK) that allows other apps to perform Aadhaar-based Face Authentication through secure flow.'
   s.description      = <<-DESC
@@ -25,5 +25,5 @@ A Flutter plugin (SDK) that allows other apps to perform Aadhaar-based Face Auth
   # required reason APIs, update the PrivacyInfo.xcprivacy file to describe your
   # plugin's privacy impact, and then uncomment this line. For more information,
   # see https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
-  # s.resource_bundles = {'aadhaar_auth_sdk_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
+  # s.resource_bundles = {'face_auth_sdk_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
 end

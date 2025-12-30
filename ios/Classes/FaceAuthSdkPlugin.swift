@@ -11,7 +11,7 @@ public class FaceAuthSdkPlugin: NSObject, FlutterPlugin {
   private var channel: FlutterMethodChannel?
 
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(name: "aadhaar_auth_sdk", binaryMessenger: registrar.messenger())
+    let channel = FlutterMethodChannel(name: "face_auth_sdk", binaryMessenger: registrar.messenger())
     let instance = FaceAuthSdkPlugin()
     instance.channel = channel
     registrar.addMethodCallDelegate(instance, channel: channel)

@@ -1,54 +1,48 @@
 package com.gov.doit.aadhaar_auth_sdk.wrapper
 
-import AadhaarAuthCallbackHolder
 import android.app.Activity
-import android.content.Intent
 import android.content.Context
-import com.gov.doit.aadhaar_auth_sdk.`interface`.AadhaarAuthCallback
+import android.content.Intent
 import io.flutter.embedding.engine.FlutterEngine
-import io.flutter.embedding.engine.dart.DartExecutor
 import io.flutter.embedding.engine.FlutterEngineCache
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.engine.dart.DartExecutor
 
-class AadhaarAuthSdk private constructor() {
+object AadhaarAuthSdk {
 
-    companion object {
-        @JvmStatic
-        val instance: AadhaarAuthSdk by lazy { AadhaarAuthSdk() }
-        lateinit var flutterEngine: FlutterEngine
-        private var initialized = false
+    private const val ENGINE_ID = "aadhaar_auth_engine"
+    private var flutterEngine: FlutterEngine? = null
 
-        fun initSdk(context: Context) {
-            if (!initialized) {
-                flutterEngine = FlutterEngine(context.applicationContext)
-                flutterEngine.dartExecutor.executeDartEntrypoint(
-                    DartExecutor.DartEntrypoint.createDefault()
-                )
+    fun init(context: Context) {
+        if (flutterEngine != null) return
 
-                FlutterEngineCache
-                    .getInstance()
-                    .put("face_auth_engine", flutterEngine)
+        flutterEngine = FlutterEngine(context.applicationContext)
 
-                initialized = true
-            }
-        }
+        // 🔴 VERY IMPORTANT
+        flutterEngine!!.navigationChannel.setInitialRoute("/aadhaar_auth")
+
+        flutterEngine!!.dartExecutor.executeDartEntrypoint(
+            DartExecutor.DartEntrypoint.createDefault()
+        )
+
+        FlutterEngineCache.getInstance().put(ENGINE_ID, flutterEngine)
     }
 
-    fun launchAuthPlateform(
+    @JvmStatic
+    fun launch(
         activity: Activity,
         appCode: String,
-        userData: String,
-        callback: AadhaarAuthCallback
+        userData: String
     ) {
-        if (!initialized) initSdk(activity.applicationContext)
+        init(activity)
 
-        AadhaarAuthCallbackHolder.callback = callback
         val intent = FlutterActivity
-            .withCachedEngine("aadhaar_auth_engine")
+            .withCachedEngine(ENGINE_ID)
             .build(activity)
+
         intent.putExtra("appCode", appCode)
         intent.putExtra("userData", userData)
 
         activity.startActivity(intent)
     }
 }
+

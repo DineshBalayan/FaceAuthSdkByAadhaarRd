@@ -1,27 +1,24 @@
 import 'package:aadhaar_auth_sdk/src/aadhaar_auth_start_channel.dart';
 import 'package:flutter/material.dart';
 
-class AadhaarSdkEntry extends StatefulWidget {
-  const AadhaarSdkEntry({super.key});
+class AadhaarSdkEntry extends StatelessWidget {
+  final String appCode;
+  final String userData;
 
-  @override
-  State<AadhaarSdkEntry> createState() => _AadhaarSdkEntryState();
-}
-
-class _AadhaarSdkEntryState extends State<AadhaarSdkEntry> {
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      FaceAuthStartChannel.register(context);
-    });
-  }
+  const AadhaarSdkEntry({
+    super.key,
+    required this.appCode,
+    required this.userData,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
+
+    debugPrint("AADHAAR_AUTH_SDK:- AadhaarSdkEntry build() called");
+    return Scaffold(
+      body: Center(
+        child: Text('Starting Aadhaar for $appCode'),
+      ),
     );
   }
 }
